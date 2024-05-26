@@ -1,0 +1,14 @@
+@import "../../style/common.scss";
+
+.single-posts {
+  margin: 20px;
+  @include flex-column-evenly;
+
+  .content-posts {
+    @include flex-row-evenly;
+    > * {
+      margin: 20px; // Отступ сверху
+      margin-bottom: 10px; // Отступ снизу
+    }
+  }
+}

@@ -7,23 +7,20 @@ import Avatar from "@mui/material/Avatar";
 import FormLabel from "@mui/material/FormLabel";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { APP_ROUTER } from "../../app-router/app-router";
 
 interface INavBarProps {}
 
-interface LinkTabProps {
-  label?: string;
-  href?: string;
-  selected?: boolean;
-}
-
 export const NavBar: FC<INavBarProps> = (props) => {
   const navigate = useNavigate();
-  const [value, setValue] = React.useState(0);
+  const location = useLocation().pathname.slice(1);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const [value, setValue] = React.useState(location);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
+    navigate(newValue);
   };
 
   const backHome = () => {
@@ -37,7 +34,13 @@ export const NavBar: FC<INavBarProps> = (props) => {
       <Box>
         <AppBar position="static">
           <Toolbar>
-            <Typography style={{ cursor: "pointer" }} variant="h6" component="div" sx={{ flexGrow: 1 }} onClick={backHome}>
+            <Typography
+              style={{ cursor: "pointer" }}
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1 }}
+              onClick={backHome}
+            >
               Pet-project
             </Typography>
             <div style={{ display: "flex", flexDirection: "row", gap: "10px", alignItems: "center" }}>
@@ -49,9 +52,9 @@ export const NavBar: FC<INavBarProps> = (props) => {
       </Box>
       <Box sx={{ width: "100%", bgcolor: "AliceBlue" }}>
         <Tabs value={value} onChange={handleChange} centered>
-          <Tab label="Users" onClick={() => navigate(APP_ROUTER.USERS.url)} />
-          <Tab label="Posts" onClick={() => navigate(APP_ROUTER.POSTS.url)} />
-          <Tab label="Chat" onClick={() => navigate(APP_ROUTER.CHAT.url)} />
+          <Tab label="Users" value={APP_ROUTER.USERS.url} />
+          <Tab label="Posts" value={APP_ROUTER.POSTS.url} />
+          <Tab label="Chat" value={APP_ROUTER.CHAT.url} />
         </Tabs>
       </Box>
     </>
